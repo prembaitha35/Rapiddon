@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- SEO Meta Tags -->
+    <title>Rapiddon - Workers Compete. Customers Choose.</title>
+    <meta name="description" content="On-demand home services marketplace with a reverse bidding system. Get multiple competitive offers from nearby local plumbers, electricians, carpenters, painters, and handymen. Choose the best.">
+    <meta name="keywords" content="home services, reverse bidding, plumber, electrician, carpenter, handyman, painter, local services, low price plumber, best electricians">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Rapiddon - Workers Compete. Customers Choose.">
+    <meta property="og:description" content="On-demand home services marketplace with a reverse bidding system. Get multiple competitive offers from nearby local plumbers, electricians, carpenters, painters, and handymen.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://rapiddon.com">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%231E3A8A'%3E%3Cpath d='M12 2L2 22h20L12 2zm0 3.99L18.49 19H5.51L12 5.99zM11 10v4h2v-4h-2zm0 6v2h2v-2h-2z'/%3E%3C/svg%3E">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Local CSS Link -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- Page Preloader -->
+    <div class="preloader" id="preloader">
+        <div class="preloader-content">
+            <div class="logo-animation-wrapper">
+                <img src="assets/logo.jpg" alt="Rapiddon Logo" class="preloader-logo">
+                <div class="loading-ring"></div>
+            </div>
+            <h2 class="preloader-text">Rapiddon</h2>
+            <p class="preloader-sub">Workers Compete. Customers Choose.</p>
+        </div>
+    </div>
+
+    <!-- Language Picker Overlay (shown after preloader) -->
+    <div class="lang-picker-overlay" id="langPickerOverlay">
+        <div class="lang-picker-card">
+            <div class="lang-picker-logo">
+                <img src="assets/logo.jpg" alt="Rapiddon Logo" class="lang-logo-img">
+            </div>
+            <h2 class="lang-picker-title">Choose Your Language</h2>
+            <p class="lang-picker-sub">भाषा चुनें / भाषा निवडा</p>
+            <div class="lang-options">
+                <button class="lang-btn" onclick="setLanguage('en')" id="lang-en">
+                    <span class="lang-flag">🇬🇧</span>
+                    <span class="lang-name">English</span>
+                    <span class="lang-native">English</span>
+                </button>
+                <button class="lang-btn" onclick="setLanguage('hi')" id="lang-hi">
+                    <span class="lang-flag">🇮🇳</span>
+                    <span class="lang-name">Hindi</span>
+                    <span class="lang-native">हिन्दी</span>
+                </button>
+                <button class="lang-btn" onclick="setLanguage('mr')" id="lang-mr">
+                    <span class="lang-flag">🇮🇳</span>
+                    <span class="lang-name">Marathi</span>
+                    <span class="lang-native">मराठी</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header Navigation -->
+    <header class="main-header" id="mainHeader">
+        <div class="container header-container">
+            <a href="#" class="logo">
+                <span class="logo-text">Rapiddon</span>
+            </a>
+            
+            <nav class="nav-menu" id="navMenu">
+                <ul>
+                    <li><a href="#how-it-works" class="nav-link" data-i18n="nav_how">How It Works</a></li>
+                    <li><a href="#pricing-demo" class="nav-link" data-i18n="nav_price">Price Range</a></li>
+                    <li><a href="#features" class="nav-link" data-i18n="nav_features">Features</a></li>
+                    <li><a href="#coming-soon" class="nav-link" data-i18n="nav_app">The App</a></li>
+                    <li><a href="#faq" class="nav-link" data-i18n="nav_faq">FAQs</a></li>
+                </ul>
+            </nav>
+            
+            <div class="header-actions">
+                <button class="btn btn-outline" onclick="openModal('worker')" data-i18n="nav_workers">For Workers</button>
+                <button class="btn btn-primary" onclick="openModal('customer')" data-i18n="nav_join">Join Waitlist</button>
+                <!-- Language switcher in header -->
+                <div class="lang-switcher-header" id="langSwitcherHeader">
+                    <button class="lang-switch-btn" onclick="cycleLang()" id="currentLangBtn" title="Change Language">🇬🇧 EN</button>
+                </div>
+                <button class="mobile-nav-toggle" id="navToggle" aria-label="Toggle Navigation">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container hero-grid">
+            <div class="hero-content">
+                <div class="badge-container">
+                    <span class="hero-badge"><i class="fa-solid fa-sparkles"></i> <span data-i18n="badge_soon">App Launching Soon</span></span>
+                </div>
+                <h1 class="hero-title"><span data-i18n="hero_title1">Workers Compete.</span><br><span class="highlight-text" data-i18n="hero_title2">Customers Choose.</span></h1>
+                <p class="hero-description" data-i18n="hero_desc">
+                    The ultimate home services marketplace powered by a <strong>Reverse Bidding Model</strong>. Describe your job, receive custom bids from verified local professionals, compare prices and ratings, and choose the best fit.
+                </p>
+                
+                <div class="hero-ctas">
+                    <button class="btn btn-primary btn-large" onclick="openModal('customer')">
+                        <i class="fa-solid fa-user-plus"></i> <span data-i18n="cta_customer">Join as Customer</span>
+                    </button>
+                    <button class="btn btn-secondary btn-large" onclick="openModal('worker')">
+                        <i class="fa-solid fa-briefcase"></i> <span data-i18n="cta_worker">Register as Worker</span>
+                    </button>
+                </div>
+                
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <span class="stat-number">100%</span>
+                        <span class="stat-label" data-i18n="stat_price">Transparent Price</span>
+                    </div>
+                    <div class="stat-divider"></div>
+                    <div class="stat-item">
+                        <span class="stat-number">5+</span>
+                        <span class="stat-label" data-i18n="stat_cats">Core Categories</span>
+                    </div>
+                    <div class="stat-divider"></div>
+                    <div class="stat-item">
+                        <span class="stat-number">&lt; 15m</span>
+                        <span class="stat-label" data-i18n="stat_eta">Average ETA</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="hero-visual">
+                <div class="hero-card-pattern"></div>
+                <!-- Premium custom illustration or generated graphic -->
+                <div class="hero-main-illustration">
+                    <img id="heroImage" src="assets/hero_illustration.png" alt="Home Services Bidding illustration" class="responsive-img illustration-main">
+                </div>
+                
+                <!-- Floating Micro Cards to showcase bidding -->
+                <div class="floating-card bid-card-1">
+                    <div class="avatar"><i class="fa-solid fa-user-tie"></i></div>
+                    <div class="info">
+                        <span class="name">Ramesh K. (Plumber)</span>
+                        <span class="bid">Bid: <strong class="price">₹320/hr</strong></span>
+                    </div>
+                    <div class="tag rating"><i class="fa-solid fa-star"></i> 4.8</div>
+                </div>
+                
+                <div class="floating-card bid-card-2">
+                    <div class="avatar"><i class="fa-solid fa-user-ninja"></i></div>
+                    <div class="info">
+                        <span class="name">Amit S. (Electrician)</span>
+                        <span class="bid">Bid: <strong class="price">₹390/hr</strong></span>
+                    </div>
+                    <div class="tag distance">1.8 km</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works (USP Simulator) -->
+    <section class="how-it-works-section" id="how-it-works">
+        <div class="container text-center">
+            <h2 class="section-title" data-i18n="hiw_title">The Reverse Bidding Revolution</h2>
+            <p class="section-subtitle" data-i18n="hiw_sub">Tired of fixed pricing and auto-assigned workers? Here's how Rapiddon works.</p>
+            
+            <!-- Interactive Simulator Grid -->
+            <div class="simulator-container">
+                <div class="simulator-controls">
+                    <button class="sim-btn active" onclick="runSimStep(1)" data-i18n="sim_step1">1. Create Request</button>
+                    <button class="sim-btn" onclick="runSimStep(2)" data-i18n="sim_step2">2. Broadcast Job</button>
+                    <button class="sim-btn" onclick="runSimStep(3)" data-i18n="sim_step3">3. Receive Bids</button>
+                    <button class="sim-btn" onclick="runSimStep(4)" data-i18n="sim_step4">4. Compare & Choose</button>
+                </div>
+                
+                <div class="simulator-screen">
+                    <div class="sim-step-content active" id="sim-step-1">
+                        <div class="sim-ui-mock">
+                            <div class="mock-header">New Request</div>
+                            <div class="mock-body">
+                                <div class="mock-field">
+                                    <label>Service Category</label>
+                                    <div class="mock-input-val"><i class="fa-solid fa-faucet-drip"></i> Plumber</div>
+                                </div>
+                                <div class="mock-field">
+                                    <label>Job Description</label>
+                                    <div class="mock-input-val">Kitchen sink pipe leaking water, needs replacement immediately.</div>
+                                </div>
+                                <div class="mock-field-row">
+                                    <div class="mock-field half">
+                                        <label>Service Type</label>
+                                        <div class="mock-input-val">Quick Service</div>
+                                    </div>
+                                    <div class="mock-field half">
+                                        <label>Materials</label>
+                                        <div class="mock-input-val">Worker Provides</div>
+                                    </div>
+                                </div>
+                                <div class="mock-action-btn pulse-glow">Broadcast Request</div>
+                            </div>
+                        </div>
+                        <div class="sim-text-desc">
+                            <h3>Step 1: Define Your Needs</h3>
+                            <p>Select your category, type a short description, specify if you want quick or scheduled service, and indicate who will supply the materials. There are no rigid pre-booked prices.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="sim-step-content" id="sim-step-2">
+                        <div class="sim-ui-mock broadcast-mock">
+                            <div class="radar-container">
+                                <div class="radar-ring ring-1"></div>
+                                <div class="radar-ring ring-2"></div>
+                                <div class="radar-ring ring-3"></div>
+                                <div class="radar-center"><i class="fa-solid fa-house-user"></i></div>
+                                
+                                <!-- Blinking Worker Pins -->
+                                <div class="worker-pin plumber-pin" style="top: 25%; left: 30%;"><i class="fa-solid fa-wrench"></i></div>
+                                <div class="worker-pin electrician-pin" style="top: 70%; left: 20%;"><i class="fa-solid fa-bolt"></i></div>
+                                <div class="worker-pin painter-pin" style="top: 40%; left: 75%;"><i class="fa-solid fa-paint-roller"></i></div>
+                                <div class="worker-pin carpenter-pin" style="top: 80%; left: 65%;"><i class="fa-solid fa-hammer"></i></div>
+                            </div>
+                            <div class="toast-notification">
+                                <i class="fa-solid fa-bell"></i> Job broadcasted to 12 nearby plumbers
+                            </div>
+                        </div>
+                        <div class="sim-text-desc">
+                            <h3>Step 2: Instant Broadcast</h3>
+                            <p>Our intelligent system immediately alerts qualified and verified workers within your selected radius. Workers receive details about location, description, and urgency.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="sim-step-content" id="sim-step-3">
+                        <div class="sim-ui-mock bids-mock">
+                            <div class="mock-header">Incoming Bids (3)</div>
+                            <div class="bids-list">
+                                <div class="sim-bid-item incoming-1">
+                                    <div class="worker-details">
+                                        <span class="worker-name">Rajesh Kumar</span>
+                                        <span class="worker-sub"><i class="fa-solid fa-star text-amber"></i> 4.9 (42 jobs)</span>
+                                    </div>
+                                    <div class="bid-amount">₹320/hr</div>
+                                </div>
+                                <div class="sim-bid-item incoming-2">
+                                    <div class="worker-details">
+                                        <span class="worker-name">Vijay Sharma</span>
+                                        <span class="worker-sub"><i class="fa-solid fa-star text-amber"></i> 4.7 (110 jobs)</span>
+                                    </div>
+                                    <div class="bid-amount">₹290/hr</div>
+                                </div>
+                                <div class="sim-bid-item incoming-3">
+                                    <div class="worker-details">
+                                        <span class="worker-name">Mohammad Ali</span>
+                                        <span class="worker-sub"><i class="fa-solid fa-star text-amber"></i> 4.5 (18 jobs)</span>
+                                    </div>
+                                    <div class="bid-amount">₹270/hr</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="sim-text-desc">
+                            <h3>Step 3: Workers Submit Bids</h3>
+                            <p>Interested workers submit custom proposals. They decide their hourly rate based on the job description, estimate their ETA, and specify details. This creates a fair, competitive marketplace.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="sim-step-content" id="sim-step-4">
+                        <div class="sim-ui-mock choose-mock">
+                            <div class="mock-header">Compare Bids</div>
+                            <div class="compare-card selected">
+                                <div class="compare-row">
+                                    <div class="w-avatar"><i class="fa-solid fa-user-check"></i></div>
+                                    <div class="w-meta">
+                                        <h4>Rajesh Kumar</h4>
+                                        <div class="stars"><i class="fa-solid fa-star"></i> 4.9 <span class="light-text">(42 jobs completed)</span></div>
+                                    </div>
+                                </div>
+                                <div class="compare-details">
+                                    <div><strong>Rate:</strong> ₹320/hr</div>
+                                    <div><strong>ETA:</strong> 15 mins</div>
+                                    <div><strong>Distance:</strong> 1.2 km</div>
+                                </div>
+                                <div class="confirm-btn">Confirm Rajesh</div>
+                            </div>
+                            <div class="success-banner">
+                                <i class="fa-solid fa-circle-check"></i> Booking Confirmed!
+                            </div>
+                        </div>
+                        <div class="sim-text-desc">
+                            <h3>Step 4: You Choose</h3>
+                            <p>Review the responses in real-time. Compare offers on distance, experience rating, hourly rate, and ETA. Choose the candidate you prefer. No random assignments, total control is yours.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Price Control / Allowed Range Demo -->
+    <section class="pricing-demo-section" id="pricing-demo">
+        <div class="container">
+            <div class="pricing-demo-grid">
+                <div class="pricing-demo-info">
+                    <h2 class="section-title text-left" data-i18n="price_title">Smart Price Control</h2>
+                    <p class="section-desc">
+                        To keep pricing fair for both workers and clients, Rapiddon enforces an automated **allowed range** for bids. This prevents workers from overcharging and prevents customers from undercutting wages, keeping our platform competitive yet fair.
+                    </p>
+                    
+                    <div class="category-selector">
+                        <label for="serviceCategory">Select a Service Category</label>
+                        <select id="serviceCategory" onchange="updatePriceRangeCalculator()">
+                            <option value="plumber">Plumber</option>
+                            <option value="electrician">Electrician</option>
+                            <option value="carpenter">Carpenter</option>
+                            <option value="painter">Painter</option>
+                            <option value="handyman">Handyman</option>
+                        </select>
+                    </div>
+                    
+                    <div class="price-rules-box">
+                        <div class="rule"><i class="fa-solid fa-shield-halved"></i> Prevents overcharging during high demand</div>
+                        <div class="rule"><i class="fa-solid fa-handshake"></i> Assures liveable wages for service partners</div>
+                        <div class="rule"><i class="fa-solid fa-tags"></i> Encourgages realistic competition</div>
+                    </div>
+                </div>
+                
+                <div class="pricing-demo-calculator">
+                    <div class="calculator-card">
+                        <h3 class="calc-title">Allowed Bidding Engine</h3>
+                        
+                        <div class="average-rate-container">
+                            <span class="label">Average Market Rate</span>
+                            <span class="value" id="avgPrice">₹350/hr</span>
+                        </div>
+                        
+                        <div class="range-display-container">
+                            <div class="range-bar-track">
+                                <div class="range-bar-active" id="rangeBar"></div>
+                            </div>
+                            <div class="range-values">
+                                <div class="range-val min">
+                                    <span class="label">Minimum Bid</span>
+                                    <span class="amount" id="minPrice">₹250/hr</span>
+                                </div>
+                                <div class="range-val max">
+                                    <span class="label">Maximum Bid</span>
+                                    <span class="amount" id="maxPrice">₹450/hr</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="calculator-simulator">
+                            <label for="bidSlider">Submit Mock Bid: <span id="bidValue">₹350/hr</span></label>
+                            <input type="range" class="bid-slider" id="bidSlider" min="200" max="600" value="350" oninput="checkBidValidity()">
+                            
+                            <div class="bid-status-message success" id="bidMessage">
+                                <i class="fa-solid fa-circle-check"></i> Bid is valid! High chance of winning selection.
+                            </div>
+                        </div>
+                        
+                        <div class="commission-calculator">
+                            <div class="comm-row">
+                                <span>Customer Pays</span>
+                                <span id="custPay">₹350</span>
+                            </div>
+                            <div class="comm-row text-primary">
+                                <span>Rapiddon Commission (10%)</span>
+                                <span id="commFee">-₹35</span>
+                            </div>
+                            <div class="comm-row total-row">
+                                <span>Worker Earnings</span>
+                                <strong id="workEarn">₹315</strong>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- App Categories -->
+    <section class="categories-section">
+        <div class="container">
+            <h2 class="section-title text-center" data-i18n="cats_title">Service Categories</h2>
+            <p class="section-subtitle text-center" data-i18n="cats_sub">Launching with five foundational services, scaling up quickly.</p>
+            
+            <div class="categories-grid">
+                <div class="category-card-item">
+                    <div class="cat-img-wrapper">
+                        <img id="plumberImg" src="assets/plumber.jpg" alt="Plumbing Services" class="cat-img">
+                    </div>
+                    <div class="cat-content">
+                        <h3>Plumbing</h3>
+                        <p>Leaking pipes, washbasin fitting, tap installation, toilet repair, blockages.</p>
+                    </div>
+                </div>
+                
+                <div class="category-card-item">
+                    <div class="cat-img-wrapper">
+                        <img id="electricianImg" src="assets/electrician.jpg" alt="Electrical Services" class="cat-img">
+                    </div>
+                    <div class="cat-content">
+                        <h3>Electrical Work</h3>
+                        <p>Switchboard wiring, fan installation, short circuits, light fixture fitting, appliances.</p>
+                    </div>
+                </div>
+                
+                <div class="category-card-item">
+                    <div class="cat-img-wrapper">
+                        <img id="carpenterImg" src="assets/carpenter.jpg" alt="Carpentry Services" class="cat-img">
+                    </div>
+                    <div class="cat-content">
+                        <h3>Carpentry</h3>
+                        <p>Door repairs, latch installation, furniture assembly, wardrobe alignment.</p>
+                    </div>
+                </div>
+                
+                <div class="category-card-item">
+                    <div class="cat-img-wrapper">
+                        <img id="painterImg" src="assets/painter.jpg" alt="Painting Services" class="cat-img">
+                    </div>
+                    <div class="cat-content">
+                        <h3>Painting</h3>
+                        <p>Wall touch-ups, single rooms, wall damage repairs, door polishing.</p>
+                    </div>
+                </div>
+                
+                <div class="category-card-item">
+                    <div class="cat-img-wrapper">
+                        <img id="handymanImg" src="assets/handyman.jpg" alt="Handyman Services" class="cat-img">
+                    </div>
+                    <div class="cat-content">
+                        <h3>General Handyman</h3>
+                        <p>Drilling, hanging photo frames, door adjustments, minor tile replacements.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dual Features: Customers & Workers -->
+    <section class="features-section" id="features">
+        <div class="container">
+            <div class="features-split-grid">
+                <!-- Customer features -->
+                <div class="features-column customer-features-card">
+                    <div class="column-header">
+                        <div class="feature-icon"><i class="fa-solid fa-users"></i></div>
+                        <h2 data-i18n="feat_cust_title">For Customers</h2>
+                    </div>
+                    <ul class="features-list">
+                        <li>
+                            <i class="fa-solid fa-circle-check"></i>
+                            <div>
+                                <strong>Save Money</strong>
+                                <p>Workers bid against each other, driving pricing down naturally.</p>
+                            </div>
+                        </li>
+                        <li>
+                            <i class="fa-solid fa-circle-check"></i>
+                            <div>
+                                <strong>Pick Who You Trust</strong>
+                                <p>Review historical ratings, reviews, jobs completed, and distance before selecting.</p>
+                            </div>
+                        </li>
+                        <li>
+                            <i class="fa-solid fa-circle-check"></i>
+                            <div>
+                                <strong>Material Flexibility</strong>
+                                <p>Provide materials yourself, or ask the worker to bring them to avoid scams.</p>
+                            </div>
+                        </li>
+                        <li>
+                            <i class="fa-solid fa-circle-check"></i>
+                            <div>
+                                <strong>Verified Service Pros</strong>
+                                <p>Every worker on Rapiddon completes background checks (Aadhaar & PAN).</p>
+                            </div>
+                        </li>
+                    </ul>
+                    <button class="btn btn-primary btn-full" onclick="openModal('customer')" data-i18n="feat_cust_btn">Register as Customer</button>
+                </div>
+                
+                <!-- Worker features -->
+                <div class="features-column worker-features-card">
+                    <div class="column-header">
+                        <div class="feature-icon"><i class="fa-solid fa-briefcase"></i></div>
+                        <h2 data-i18n="feat_work_title">For Service Partners</h2>
+                    </div>
+                    <ul class="features-list">
+                        <li>
+                            <i class="fa-solid fa-circle-check"></i>
+                            <div>
+                                <strong>Be Your Own Boss</strong>
+                                <p>Decide which requests to accept, your hourly rates, and working hours.</p>
+                            </div>
+                        </li>
+                        <li>
+                            <i class="fa-solid fa-circle-check"></i>
+                            <div>
+                                <strong>Low commission (10-15%)</strong>
+                                <p>Only pay a minor platform fee on completed jobs. No upfront leads charging.</p>
+                            </div>
+                        </li>
+                        <li>
+                            <i class="fa-solid fa-circle-check"></i>
+                            <div>
+                                <strong>Subscription Tier (Premium)</strong>
+                                <p>Upgrade to get a premium badge, top visibility, and first access to nearby requests.</p>
+                            </div>
+                        </li>
+                        <li>
+                            <i class="fa-solid fa-circle-check"></i>
+                            <div>
+                                <strong>Instant Payouts</strong>
+                                <p>Access your earnings on a daily basis with direct UPI payouts.</p>
+                            </div>
+                        </li>
+                    </ul>
+                    <button class="btn btn-secondary btn-full" onclick="openModal('worker')" data-i18n="feat_work_btn">Register as Partner</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- App Mockups / Coming Soon -->
+    <section class="coming-soon-section" id="coming-soon">
+        <div class="container coming-soon-grid">
+            <div class="coming-soon-visual">
+                <!-- Custom Premium CSS Phone Mockup -->
+                <div class="phone-container">
+                    <div class="phone-speaker"></div>
+                    <div class="phone-screen">
+                        <div class="phone-app-header">
+                            <i class="fa-solid fa-location-dot"></i> Bengaluru, IN
+                            <span class="phone-battery"><i class="fa-solid fa-battery-three-quarters"></i></span>
+                        </div>
+                        
+                        <!-- Carousel Screen 1 (default) -->
+                        <div class="phone-screen-content active" id="phone-screen-1">
+                            <div class="phone-search-mock">
+                                <i class="fa-solid fa-magnifying-glass"></i> Search service...
+                            </div>
+                            
+                            <div class="phone-categories-grid">
+                                <div class="p-cat"><i class="fa-solid fa-wrench"></i> <span>Plumber</span></div>
+                                <div class="p-cat"><i class="fa-solid fa-bolt"></i> <span>Electrician</span></div>
+                                <div class="p-cat"><i class="fa-solid fa-hammer"></i> <span>Carpenter</span></div>
+                                <div class="p-cat"><i class="fa-solid fa-paint-roller"></i> <span>Painter</span></div>
+                            </div>
+                            
+                            <div class="phone-featured-card">
+                                <h4>Reverse Bidding Active</h4>
+                                <p>Plumbers and electricians are active near you right now.</p>
+                                <span class="phone-badge">Quick Booking</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Carousel Screen 2 (Worker Dashboard) -->
+                        <div class="phone-screen-content" id="phone-screen-2">
+                            <div class="worker-dashboard-mock">
+                                <div class="toggle-online">
+                                    <span>Online Status</span>
+                                    <div class="toggle-switch active"></div>
+                                </div>
+                                <div class="earnings-box">
+                                    <span class="lbl">Today's Earnings</span>
+                                    <h2>₹1,240</h2>
+                                </div>
+                                <div class="jobs-summary">
+                                    <div class="js-item"><strong>4</strong><span>Jobs</span></div>
+                                    <div class="js-item"><strong>4.9</strong><span>Rating</span></div>
+                                </div>
+                                <div class="incoming-request-card">
+                                    <div class="card-head">New plumber request!</div>
+                                    <p>Kitchen tap leakage, HSR Layout.</p>
+                                    <div class="card-act">
+                                        <button class="ph-btn rej">Ignore</button>
+                                        <button class="ph-btn acc">Bid Now</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="phone-app-navbar">
+                            <div class="nav-item active"><i class="fa-solid fa-house"></i></div>
+                            <div class="nav-item"><i class="fa-solid fa-calendar-check"></i></div>
+                            <div class="nav-item"><i class="fa-solid fa-message"></i></div>
+                            <div class="nav-item"><i class="fa-solid fa-user"></i></div>
+                        </div>
+                    </div>
+                    <div class="phone-home-button"></div>
+                </div>
+                
+                <div class="phone-nav-controls">
+                    <button class="phone-nav-dot active" onclick="switchPhoneScreen(1)" aria-label="View Customer App"></button>
+                    <button class="phone-nav-dot" onclick="switchPhoneScreen(2)" aria-label="View Worker App"></button>
+                </div>
+            </div>
+            
+            <div class="coming-soon-content">
+                <h2 data-i18n="cs_title">Our Mobile App is Coming Soon</h2>
+                <p class="coming-soon-desc" data-i18n="cs_desc">
+                    We are putting the final touches on our iOS and Android applications. Enter your details below to get early beta access, launch notifications, and a **₹100 credit voucher** towards your first booking.
+                </p>
+                
+                <form id="waitlistEmailForm" class="waitlist-form" onsubmit="handleWaitlistSubmit(event)">
+                    <div class="input-group">
+                        <i class="fa-solid fa-envelope input-icon"></i>
+                        <input type="email" id="waitlistEmail" placeholder="Enter your email address" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary" data-i18n="cs_notify">Notify Me</button>
+                </form>
+                <div id="waitlistFormFeedback" class="form-feedback-message"></div>
+                
+                <div class="platforms-badges">
+                    <div class="platform-badge-item">
+                        <i class="fa-brands fa-android"></i>
+                        <div>
+                            <span>Get it on</span>
+                            <strong>Google Play</strong>
+                        </div>
+                    </div>
+                    <div class="platform-badge-item">
+                        <i class="fa-brands fa-apple"></i>
+                        <div>
+                            <span>Download on the</span>
+                            <strong>App Store</strong>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Accordion -->
+    <section class="faq-section" id="faq">
+        <div class="container max-width-md">
+            <h2 class="section-title text-center" data-i18n="faq_title">Frequently Asked Questions</h2>
+            <p class="section-subtitle text-center" data-i18n="faq_sub">Everything you need to know about the Rapiddon marketplace.</p>
+            
+            <div class="faq-accordion">
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>How does the reverse bidding work?</span>
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Instead of the platform giving you a fixed price or auto-assigning a worker, you post the job description. Verified nearby workers see the request and submit individual offers with their hourly rates and estimated arrival times. You review their prices, ratings, and distances side-by-side, then choose the one that works best for you.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>Are the service workers verified?</span>
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Yes, safety and trust are our top priorities. All workers joining Rapiddon must undergo a registration check, including phone number verification, Aadhaar verification (Identity Check), and PAN card verification (Tax & Finance verification). We also track user ratings and reviews closely.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>What is the price control mechanism?</span>
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>To avoid price gouging (overcharging during emergencies or heavy rain) and unfair wage competition (undercutting rates beneath living wages), Rapiddon implements an automated allowed range. For example, if the average plumber rate is ₹350/hr, our smart range allows bids between ₹250/hr and ₹450/hr.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>How does Rapiddon make money?</span>
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Rapiddon relies on a commission-based model. We deduct a 10% to 15% service fee from the worker's earnings upon successful job completion. We also offer a premium subscription tier (₹299/month) for service partners to receive top visibility, a badge, and priority bid alerts.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="container footer-grid">
+            <div class="footer-brand-col">
+                <div class="footer-logo-wrapper">
+                    <img src="assets/logo.jpg" alt="Rapiddon Logo" class="logo-img">
+                </div>
+                <p class="brand-pitch" data-i18n="footer_pitch">Workers Compete. Customers Choose. The next generation home services bidding marketplace.</p>
+                <div class="social-links">
+                    <a href="#" aria-label="Twitter"><i class="fa-brands fa-twitter"></i></a>
+                    <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook"></i></a>
+                    <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#" aria-label="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-links-col">
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#">Contact Support</a></li>
+                    <li><a href="admin.html" target="_blank"><i class="fa-solid fa-lock" style="font-size:0.8rem; margin-right:4px;"></i> Admin Portal</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-links-col">
+                <h4>Legal</h4>
+                <ul>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms & Conditions</a></li>
+                    <li><a href="#">Service Terms</a></li>
+                    <li><a href="#">Worker Agreement</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-newsletter-col">
+                <h4>Stay Updated</h4>
+                <p>Subscribe for updates on our city launch, offers and features.</p>
+                <form class="footer-newsletter-form" onsubmit="event.preventDefault(); alert('Subscribed to news updates!');">
+                    <input type="email" placeholder="Your email address" required>
+                    <button type="submit"><i class="fa-solid fa-paper-plane"></i></button>
+                </form>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <div class="container footer-bottom-flex">
+                <p>&copy; 2026 Rapiddon Technologies Private Limited. All rights reserved.</p>
+                <p>Designed with <i class="fa-solid fa-heart text-red"></i> for high-performance home services.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Interactive Registration / Waitlist Modal -->
+    <div class="modal-overlay" id="registrationModal">
+        <div class="modal-card">
+            <button class="modal-close" onclick="closeModal()">&times;</button>
+            
+            <div class="modal-tabs">
+                <button class="modal-tab active" id="tabCustomer" onclick="switchModalTab('customer')">
+                    <i class="fa-solid fa-user"></i> I am a Customer
+                </button>
+                <button class="modal-tab" id="tabWorker" onclick="switchModalTab('worker')">
+                    <i class="fa-solid fa-wrench"></i> I am a Worker
+                </button>
+            </div>
+            
+            <!-- Customer Form -->
+            <form id="customerForm" class="modal-form active" onsubmit="handleRegistration(event, 'customer')">
+                <div class="form-scrollable-area">
+                    <h3 class="form-title">Join the Customer Waitlist</h3>
+                    <p class="form-subtitle">Find local pros, set descriptions, and let workers compete for your request.</p>
+                    
+                    <div class="form-group">
+                        <label for="custName">Full Name</label>
+                        <input type="text" id="custName" required placeholder="Enter your full name">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="custPhone">Phone Number</label>
+                        <div class="phone-input-wrapper">
+                            <span class="country-code">+91</span>
+                            <input type="tel" id="custPhone" required placeholder="10-digit mobile number" pattern="[0-9]{10}">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="custEmail">Email Address</label>
+                        <input type="email" id="custEmail" required placeholder="name@domain.com">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="custLocation">Select Your Area/Location</label>
+                        <select id="custLocation" required>
+                            <option value="" disabled selected>Select your city/locality</option>
+                            <optgroup label="Pune">
+                                <option value="Pune - Kothrud">Pune - Kothrud</option>
+                                <option value="Pune - Baner">Pune - Baner</option>
+                                <option value="Pune - Viman Nagar">Pune - Viman Nagar</option>
+                                <option value="Pune - Hinjawadi">Pune - Hinjawadi</option>
+                                <option value="Pune - Hadapsar">Pune - Hadapsar</option>
+                                <option value="Pune - Koregaon Park">Pune - Koregaon Park</option>
+                                <option value="Pune - Shivaji Nagar">Pune - Shivaji Nagar</option>
+                            </optgroup>
+                            <optgroup label="Ahilyanagar">
+                                <option value="Ahilyanagar - Savedi">Ahilyanagar - Savedi</option>
+                                <option value="Ahilyanagar - Kedgaon">Ahilyanagar - Kedgaon</option>
+                                <option value="Ahilyanagar - Maliwada">Ahilyanagar - Maliwada</option>
+                                <option value="Ahilyanagar - Tophakhana">Ahilyanagar - Tophakhana</option>
+                                <option value="Ahilyanagar - MIDC Area">Ahilyanagar - MIDC Area</option>
+                                <option value="Ahilyanagar - Bhingar">Ahilyanagar - Bhingar</option>
+                            </optgroup>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="custAddress">Full Address</label>
+                        <textarea id="custAddress" required placeholder="Enter your complete home or office address" rows="2" style="resize:none;"></textarea>
+                    </div>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary btn-full">Submit Application</button>
+                </div>
+            </form>
+            
+            <!-- Worker Form -->
+            <form id="workerForm" class="modal-form" onsubmit="handleRegistration(event, 'worker')">
+                <div class="form-scrollable-area">
+                    <h3 class="form-title">Register as a Service Partner</h3>
+                    <p class="form-subtitle">Get bids directly from customers. Free to join, flexible hours.</p>
+                    
+                    <div class="form-group">
+                        <label for="workName">Full Name (As in Aadhaar)</label>
+                        <input type="text" id="workName" required placeholder="Enter your official name">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="workPhone">Phone Number</label>
+                        <div class="phone-input-wrapper">
+                            <span class="country-code">+91</span>
+                            <input type="tel" id="workPhone" required placeholder="10-digit mobile number" pattern="[0-9]{10}">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="workCategory">Service Category</label>
+                        <select id="workCategory" required>
+                            <option value="" disabled selected>Choose your trade</option>
+                            <option value="Plumber">Plumber</option>
+                            <option value="Electrician">Electrician</option>
+                            <option value="Carpenter">Carpenter</option>
+                            <option value="Painter">Painter</option>
+                            <option value="Handyman">Handyman</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="workAadhaar">Aadhaar Number (Identity Verification)</label>
+                        <input type="text" id="workAadhaar" required placeholder="XXXX XXXX XXXX" pattern="[0-9]{12}" maxlength="12">
+                        <span class="input-helper">12-digit UIDAI identity number. Encrypted and verified safely.</span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="workPan">PAN Number (Tax Verification)</label>
+                        <input type="text" id="workPan" required placeholder="ABCDE1234F" pattern="[A-Z]{5}[0-9]{4}[A-Z]{1}" maxlength="10">
+                        <span class="input-helper">10-character alphanumeric PAN. Required for payouts.</span>
+                    </div>
+                    <div class="form-group">
+                        <label for="workAddress">Full Address</label>
+                        <textarea id="workAddress" required placeholder="Enter your complete residential address" rows="2" style="resize:none;"></textarea>
+                    </div>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-secondary btn-full">Submit Credentials</button>
+                </div>
+            </form>
+            
+            <!-- Success Screen -->
+            <div class="modal-success-screen" id="successScreen">
+                <div class="success-icon"><i class="fa-solid fa-circle-check"></i></div>
+                <h3 class="form-title">Registration Complete!</h3>
+                <p class="form-subtitle" id="successMessage">Welcome to the Rapiddon waitlist. We will notify you once our apps launch in your locality.</p>
+                <div class="coupon-box" id="couponBox">
+                    <span class="label">Your Launch Promo Voucher</span>
+                    <strong class="code">RAPID100</strong>
+                    <span class="subtext">₹100 credited to your account upon app sign-in</span>
+                </div>
+                <div class="form-actions">
+                    <button class="btn btn-primary btn-full" onclick="closeModal()">Awesome, Thanks!</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script Links -->
+    <script src="js/app.js"></script>
+</body>
+</html>
+
