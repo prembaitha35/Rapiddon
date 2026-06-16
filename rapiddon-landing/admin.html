@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rapiddon - Administration Portal</title>
+    
+    <!-- Google Fonts & FontAwesome -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Reuse main stylesheet variables and components -->
+    <link rel="stylesheet" href="css/style.css">
+    
+    <style>
+        body {
+            background-color: #f8fafc;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Password Gate Styling */
+        .admin-gate-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 10000;
+            background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 60%, #1e40af 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+        }
+
+        .admin-gate-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 24px;
+            padding: 48px 40px;
+            text-align: center;
+            width: 100%;
+            max-width: 440px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
+        }
+
+        .gate-icon {
+            font-size: 3rem;
+            color: #f59e0b;
+            margin-bottom: 24px;
+            animation: lockPulse 2s infinite;
+        }
+
+        @keyframes lockPulse {
+            0%, 100% { transform: scale(1); text-shadow: 0 0 0 rgba(245, 158, 11, 0); }
+            50% { transform: scale(1.05); text-shadow: 0 0 15px rgba(245, 158, 11, 0.5); }
+        }
+
+        .gate-title {
+            color: #ffffff;
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .gate-desc {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.95rem;
+            margin-bottom: 32px;
+        }
+
+        .gate-form .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .gate-form label {
+            display: block;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .gate-input-wrapper {
+            position: relative;
+        }
+
+        .gate-input-wrapper i {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .gate-input {
+            width: 100%;
+            padding: 14px 16px 14px 44px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.08);
+            color: #ffffff;
+            font-family: inherit;
+            font-size: 1.1rem;
+            letter-spacing: 0.25em;
+            transition: all 0.3s ease;
+        }
+
+        .gate-input:focus {
+            outline: none;
+            border-color: #f59e0b;
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 0 10px rgba(245, 158, 11, 0.3);
+        }
+
+        .gate-error-msg {
+            color: #f87171;
+            font-size: 0.85rem;
+            margin-top: 10px;
+            display: none;
+            font-weight: 600;
+        }
+
+        /* Dashboard View Styling */
+        .admin-dashboard {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 40px 0;
+        }
+
+        .admin-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 36px;
+        }
+
+        .admin-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .admin-logo-text {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--color-primary);
+        }
+
+        .admin-badge {
+            background-color: var(--color-primary-light);
+            color: var(--color-primary);
+            font-size: 0.72rem;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 6px;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .admin-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background: #ffffff;
+            border: 1px solid var(--color-secondary-border);
+            border-radius: 16px;
+            padding: 24px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .stat-icon-wrapper {
+            width: 56px;
+            height: 56px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .stat-icon-wrapper.blue {
+            background-color: var(--color-primary-light);
+            color: var(--color-primary);
+        }
+
+        .stat-icon-wrapper.amber {
+            background-color: #fef3c7;
+            color: #d97706;
+        }
+
+        .stat-icon-wrapper.emerald {
+            background-color: #d1fae5;
+            color: #059669;
+        }
+
+        .stat-info h5 {
+            color: var(--color-text-light);
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+            letter-spacing: 0.02em;
+        }
+
+        .stat-info h2 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin: 0;
+            line-height: 1;
+        }
+
+        /* Database Table Section */
+        .db-section {
+            background: #ffffff;
+            border: 1px solid var(--color-secondary-border);
+            border-radius: 20px;
+            box-shadow: var(--shadow-sm);
+            overflow: hidden;
+        }
+
+        .db-header {
+            padding: 24px 32px;
+            border-bottom: 1px solid var(--color-secondary-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .db-header h3 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .db-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .db-table-container {
+            overflow-x: auto;
+            width: 100%;
+        }
+
+        .db-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: 0.92rem;
+        }
+
+        .db-table th {
+            background-color: var(--color-secondary-light);
+            color: var(--color-text-medium);
+            font-weight: 600;
+            padding: 16px 24px;
+            border-bottom: 1px solid var(--color-secondary-border);
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.05em;
+        }
+
+        .db-table td {
+            padding: 18px 24px;
+            border-bottom: 1px solid var(--color-secondary-border);
+            color: var(--color-text-dark);
+            vertical-align: middle;
+        }
+
+        .db-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .db-table tbody tr:hover {
+            background-color: #f8fafc;
+        }
+
+        .badge-cust {
+            background-color: var(--color-primary-light);
+            color: var(--color-primary);
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 0.75rem;
+        }
+
+        .badge-worker {
+            background-color: #fef3c7;
+            color: #d97706;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 0.75rem;
+        }
+
+        .badge-sub {
+            background-color: #f1f5f9;
+            color: #475569;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 0.75rem;
+        }
+
+        .time-cell {
+            color: var(--color-text-light);
+            font-size: 0.8rem;
+        }
+
+        .empty-state {
+            padding: 56px 24px;
+            text-align: center;
+            color: var(--color-text-light);
+        }
+
+        .empty-state i {
+            font-size: 2.5rem;
+            margin-bottom: 16px;
+        }
+
+        .empty-state p {
+            margin-bottom: 0;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Password Gate Overlay -->
+    <div class="admin-gate-overlay" id="passwordGate">
+        <div class="admin-gate-card">
+            <div class="gate-icon">
+                <i class="fa-solid fa-shield-halved"></i>
+            </div>
+            <h2 class="gate-title">Admin Authorization</h2>
+            <p class="gate-desc">Enter security credentials to view registered waitlist databases.</p>
+            
+            <form class="gate-form" onsubmit="handleAuthSubmit(event)">
+                <div class="form-group">
+                    <label for="adminPass">Security Code</label>
+                    <div class="gate-input-wrapper">
+                        <i class="fa-solid fa-key"></i>
+                        <input type="password" id="adminPass" class="gate-input" placeholder="••••" required autofocus>
+                    </div>
+                    <div class="gate-error-msg" id="errorMessage">
+                        <i class="fa-solid fa-triangle-exclamation"></i> Invalid access code. Try again.
+                    </div>
+                </div>
+                
+                <button type="submit" class="btn btn-primary btn-full" style="background-color: #f59e0b; border-color: #f59e0b; box-shadow: 0 4px 14px rgba(245, 158, 11, 0.3);">
+                    Verify & Unlock
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Main Dashboard View -->
+    <main class="admin-dashboard">
+        <div class="container">
+            
+            <!-- Navbar navigation -->
+            <div class="admin-nav">
+                <div class="admin-brand">
+                    <span class="admin-logo-text">Rapiddon</span>
+                    <span class="admin-badge">Admin Panel</span>
+                </div>
+                <a href="index.html" class="btn btn-outline">
+                    <i class="fa-solid fa-arrow-left"></i> Back to Site
+                </a>
+            </div>
+            
+            <!-- Statistical Cards -->
+            <div class="admin-stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon-wrapper blue">
+                        <i class="fa-solid fa-users"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h5>Total Customers</h5>
+                        <h2 id="statCustCount">0</h2>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon-wrapper amber">
+                        <i class="fa-solid fa-screwdriver-wrench"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h5>Total Workers</h5>
+                        <h2 id="statWorkCount">0</h2>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon-wrapper emerald">
+                        <i class="fa-solid fa-chart-line"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h5>Total waitlist</h5>
+                        <h2 id="statTotalCount">0</h2>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Database Tables -->
+            <div class="db-section">
+                <div class="db-header">
+                    <div style="display:flex; align-items:center; flex-wrap:wrap; gap:16px; flex-grow:1;">
+                        <h3>Waitlist Database Records</h3>
+                        <div class="search-container" style="position: relative; flex-grow: 1; max-width: 380px;">
+                            <i class="fa-solid fa-magnifying-glass" style="position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--color-text-light);"></i>
+                            <input type="text" id="searchBar" oninput="renderDashboard()" placeholder="Search Name, Phone, Location, Address..." style="width: 100%; padding: 10px 16px 10px 40px; border-radius: var(--border-radius-sm); border: 1px solid var(--color-secondary-border); font-size: 0.88rem; outline: none; transition: var(--transition-fast);">
+                        </div>
+                        <span id="filteredCountLabel" style="font-size:0.85rem; color:var(--color-text-medium); font-weight:600; background:var(--color-bg-gray); padding:4px 10px; border-radius:6px;">Showing 0 of 0</span>
+                    </div>
+                    <div class="db-actions">
+                        <button class="btn btn-outline" onclick="downloadCSV()">
+                            <i class="fa-solid fa-file-csv"></i> Download CSV
+                        </button>
+                        <button class="btn btn-secondary" onclick="clearDatabase()" style="background-color: var(--color-error); box-shadow: 0 4px 14px rgba(239, 68, 68, 0.25);">
+                            <i class="fa-solid fa-trash-can"></i> Clear All
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="db-table-container">
+                    <table class="db-table">
+                        <thead>
+                            <tr>
+                                <th>Type</th>
+                                <th>Full Name</th>
+                                <th>Phone Number</th>
+                                <th>Email / Category</th>
+                                <th>Location</th>
+                                <th style="min-width: 180px;">Full Address</th>
+                                <th>Verification Credentials</th>
+                                <th>Timestamp</th>
+                            </tr>
+                        </thead>
+                        <tbody id="dbTableBody">
+                            <!-- Populated via Javascript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+        </div>
+    </main>
+
+    <script>
+        // Check for active session verification on load
+        document.addEventListener('DOMContentLoaded', () => {
+            const isAuthorized = sessionStorage.getItem('rapiddon_admin_auth') === 'true';
+            if (isAuthorized) {
+                // Hide gate and render data immediately
+                document.getElementById('passwordGate').style.display = 'none';
+                renderDashboard();
+            }
+        });
+
+        // Handle Gate Unlock Submission
+        function handleAuthSubmit(event) {
+            event.preventDefault();
+            const passInput = document.getElementById('adminPass');
+            const errMsg = document.getElementById('errorMessage');
+            
+            if (passInput.value === 'PK7973') {
+                // Save session validation state
+                sessionStorage.setItem('rapiddon_admin_auth', 'true');
+                
+                // Hide authorization screen
+                document.getElementById('passwordGate').style.display = 'none';
+                
+                // Render dashboard statistics & list
+                renderDashboard();
+                errMsg.style.display = 'none';
+            } else {
+                errMsg.style.display = 'block';
+                passInput.value = '';
+                passInput.focus();
+            }
+        }
+
+        // Render Dashboard Data
+        function renderDashboard() {
+            let database = [];
+            try {
+                const stored = localStorage.getItem('rapiddon_waitlist');
+                if (stored) database = JSON.parse(stored);
+            } catch (e) {
+                console.error('Error parsing local waitlist data:', e);
+            }
+
+            // Calculations for raw stats
+            let custCount = 0;
+            let workCount = 0;
+            
+            database.forEach(record => {
+                if (record.type.startsWith('Customer')) {
+                    custCount++;
+                } else if (record.type.startsWith('Worker')) {
+                    workCount++;
+                }
+            });
+
+            // Set statistics
+            document.getElementById('statCustCount').textContent = custCount;
+            document.getElementById('statWorkCount').textContent = workCount;
+            document.getElementById('statTotalCount').textContent = database.length;
+
+            // Search filtering
+            const searchVal = document.getElementById('searchBar').value.toLowerCase().trim();
+            const filteredData = database.filter(item => {
+                if (!searchVal) return true;
+                
+                const name = (item.name || '').toLowerCase();
+                const phone = (item.phone || '').toLowerCase();
+                const type = (item.type || '').toLowerCase();
+                const email = (item.email || '').toLowerCase();
+                const location = (item.location || '').toLowerCase();
+                const address = (item.address || '').toLowerCase();
+                const details = (item.details || '').toLowerCase();
+
+                return name.includes(searchVal) || 
+                       phone.includes(searchVal) || 
+                       type.includes(searchVal) || 
+                       email.includes(searchVal) || 
+                       location.includes(searchVal) || 
+                       address.includes(searchVal) || 
+                       details.includes(searchVal);
+            });
+
+            // Update result counter tag
+            document.getElementById('filteredCountLabel').textContent = `Showing ${filteredData.length} of ${database.length}`;
+
+            // Render Table Body
+            const tbody = document.getElementById('dbTableBody');
+            
+            if (filteredData.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="8">
+                            <div class="empty-state">
+                                <i class="fa-solid fa-magnifying-glass"></i>
+                                <p>No waitlist records match your search criteria.</p>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            tbody.innerHTML = '';
+            filteredData.forEach(item => {
+                const tr = document.createElement('tr');
+                
+                // Setup type badge
+                let badge = '';
+                if (item.type.startsWith('Customer')) {
+                    badge = `<span class="badge-cust">Customer</span>`;
+                } else if (item.type.startsWith('Worker')) {
+                    badge = `<span class="badge-worker">${item.type}</span>`;
+                } else {
+                    badge = `<span class="badge-sub">Subscriber</span>`;
+                }
+
+                // Format timestamp
+                let formattedTime = 'N/A';
+                if (item.timestamp) {
+                    const d = new Date(item.timestamp);
+                    formattedTime = d.toLocaleDateString() + ' ' + d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                }
+
+                // Determine columns fields
+                const nameText = item.name || 'N/A';
+                const phoneText = item.phone || 'N/A';
+                const emailCategoryText = item.type.startsWith('Customer') ? (item.email || 'N/A') : (item.type.replace('Worker (', '').replace(')', '') || 'N/A');
+                const locationText = item.location || 'N/A';
+                const addressText = item.address || 'N/A';
+                const verificationText = item.details || 'N/A';
+
+                tr.innerHTML = `
+                    <td>${badge}</td>
+                    <td><strong>${nameText}</strong></td>
+                    <td>${phoneText}</td>
+                    <td>${emailCategoryText}</td>
+                    <td><span style="font-weight:600; color:var(--color-primary);">${locationText}</span></td>
+                    <td><span style="font-size: 0.85rem; color: var(--color-text-medium); line-height: 1.4; display: block; max-width: 320px; overflow-wrap: break-word;">${addressText}</span></td>
+                    <td><span style="font-size: 0.85rem; font-family: monospace; background: #f1f5f9; padding: 2px 6px; border-radius: 4px;">${verificationText}</span></td>
+                    <td class="time-cell">${formattedTime}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // Clear local waitlist database
+        function clearDatabase() {
+            if (confirm('Are you sure you want to permanently delete all registered waitlist entries from this application?')) {
+                localStorage.removeItem('rapiddon_waitlist');
+                renderDashboard();
+            }
+        }
+
+        // CSV Exporter Utility
+        function downloadCSV() {
+            let database = [];
+            try {
+                const stored = localStorage.getItem('rapiddon_waitlist');
+                if (stored) database = JSON.parse(stored);
+            } catch (e) {
+                console.error(e);
+            }
+
+            if (database.length === 0) {
+                alert('No registrations available to export.');
+                return;
+            }
+
+            let csvContent = "data:text/csv;charset=utf-8,";
+            csvContent += "Type,Full Name,Phone Number,Email/Category,Location,Full Address,Verification,Timestamp\n";
+
+            database.forEach(row => {
+                const type = `"${row.type || ''}"`;
+                const name = `"${row.name || ''}"`;
+                const phone = `"${row.phone || ''}"`;
+                const emailCategory = row.type.startsWith('Customer') ? `"${row.email || 'N/A'}"` : `"${row.type.replace('Worker (', '').replace(')', '') || 'N/A'}"`;
+                const location = `"${row.location || ''}"`;
+                const address = `"${(row.address || '').replace(/"/g, '""')}"`;
+                const verification = `"${(row.details || '').replace(/"/g, '""')}"`;
+                const timestamp = `"${row.timestamp || ''}"`;
+                
+                csvContent += `${type},${name},${phone},${emailCategory},${location},${address},${verification},${timestamp}\n`;
+            });
+
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", `rapiddon_waitlist_${new Date().toISOString().split('T')[0]}.csv`);
+            document.body.appendChild(link); // Required for FF
+            
+            link.click();
+            document.body.removeChild(link);
+        }
+    </script>
+</body>
+</html>
